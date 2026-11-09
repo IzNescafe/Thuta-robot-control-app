@@ -1,0 +1,18 @@
+[Unit]
+Description=Thuta AI RobotDog mobile bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__AI_DIR__
+Environment="THUTA_CODE_DIR=__AI_DIR__"
+Environment=THUTA_UART=/dev/ttyAMA2
+Environment=THUTA_UART_BAUD=9600
+ExecStart="__BRIDGE_DIR__/.venv/bin/python" -m uvicorn server:app --app-dir "__BRIDGE_DIR__" --host 0.0.0.0 --port 8000
+Restart=on-failure
+RestartSec=4
+
+[Install]
+WantedBy=multi-user.target
